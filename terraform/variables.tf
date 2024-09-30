@@ -1,7 +1,7 @@
 variable "cluster_name" {
   type        = string
   description = "Name used for cluster"
-  default     = "argocdmanagedstartercluster"
+  default     = "argocdmanagedcluster"
 }
 
 variable "tags" {
