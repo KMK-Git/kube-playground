@@ -38,3 +38,14 @@ module "controller_role" {
     }
   }
 }
+
+module "irsa_service_account" {
+  source                = "../modules/eksserviceaccount"
+  account_id            = data.aws_caller_identity.current.account_id
+  name_prefix           = ""
+  oidc_provider_arn     = data.aws_iam_openid_connect_provider.cluster_oidc.arn
+  partition             = data.aws_partition.current.partition
+  role_name             = "IRSATest"
+  namespace             = "awsauthtest"
+  service_account_names = ["irsatest"]
+}
