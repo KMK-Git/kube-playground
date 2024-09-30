@@ -39,13 +39,30 @@ module "controller_role" {
   }
 }
 
-module "irsa_service_account" {
-  source                = "../modules/eksserviceaccount"
-  account_id            = data.aws_caller_identity.current.account_id
-  name_prefix           = ""
-  oidc_provider_arn     = data.aws_iam_openid_connect_provider.cluster_oidc.arn
-  partition             = data.aws_partition.current.partition
-  role_name             = "IRSATest"
-  namespace             = "awsauthtest"
-  service_account_names = ["irsatest"]
+resource "helm_release" "serviceaccount" {
+  name             = "irsatest"
+  chart            = "${path.module}/../charts/eksserviceaccount"
+  namespace        = "awsauthtest"
+  version          = "0.1.0"
+  create_namespace = true
+
+  set {
+    name  = "aws.account.id"
+    value = data.aws_caller_identity.current.account_id
+  }
+
+  set {
+    name  = "aws.account.partition"
+    value = data.aws_partition.current.partition
+  }
+
+  set {
+    name  = "aws.role_name"
+    value = "IRSATest"
+  }
+
+  set {
+    name  = "serviceAccount.name"
+    value = "irsatest"
+  }
 }
