@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: irsa_podidentity_terraform
+        working-directory: terraform
     steps:
       - name: Checkout
         id: checkout
