@@ -1,0 +1,1 @@
+aws sts assume-role-with-web-identity --role-arn $AWS_ROLE_ARN --web-identity-token "$(cat $AWS_WEB_IDENTITY_TOKEN_FILE)" --role-session-name test

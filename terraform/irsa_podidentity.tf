@@ -18,12 +18,12 @@ module "argocd_pod_identity" {
   ]
 
   associations = {
-    controller = {
+    podidentitytest = {
       cluster_name    = data.aws_eks_cluster.cluster.name
       namespace       = "awsauthtest"
       service_account = "podidentitytest"
     }
-    controller = {
+    hybridtest = {
       cluster_name    = data.aws_eks_cluster.cluster.name
       namespace       = "awsauthtest"
       service_account = "hybridtest"
@@ -45,6 +45,7 @@ module "controller_role" {
 }
 
 resource "helm_release" "serviceaccount_irsa" {
+  depends_on       = [module.controller_role]
   name             = "irsatest"
   chart            = "${path.module}/../charts/eksserviceaccount"
   namespace        = "awsauthtest"
@@ -79,6 +80,7 @@ resource "helm_release" "serviceaccount_irsa" {
 
 
 resource "helm_release" "serviceaccount_hybrid" {
+  depends_on       = [module.controller_role]
   name             = "hybridtest"
   chart            = "${path.module}/../charts/eksserviceaccount"
   namespace        = "awsauthtest"

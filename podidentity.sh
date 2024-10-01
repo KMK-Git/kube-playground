@@ -1,0 +1,1 @@
+curl 169.254.170.23/v1/credentials -H "Authorization: $(cat /var/run/secrets/pods.eks.amazonaws.com/serviceaccount/eks-pod-identity-token)"
