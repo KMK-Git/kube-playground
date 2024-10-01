@@ -23,6 +23,11 @@ module "argocd_pod_identity" {
       namespace       = "awsauthtest"
       service_account = "podidentitytest"
     }
+    controller = {
+      cluster_name    = data.aws_eks_cluster.cluster.name
+      namespace       = "awsauthtest"
+      service_account = "hybridtest"
+    }
   }
 }
 
@@ -34,12 +39,12 @@ module "controller_role" {
   oidc_providers = {
     main = {
       provider_arn               = data.aws_iam_openid_connect_provider.cluster_oidc.arn
-      namespace_service_accounts = ["awsauthtest:irsatest"]
+      namespace_service_accounts = ["awsauthtest:irsatest", "awsauthtest:hybridtest"]
     }
   }
 }
 
-resource "helm_release" "serviceaccount" {
+resource "helm_release" "serviceaccount_irsa" {
   name             = "irsatest"
   chart            = "${path.module}/../charts/eksserviceaccount"
   namespace        = "awsauthtest"
@@ -64,6 +69,40 @@ resource "helm_release" "serviceaccount" {
   set {
     name  = "serviceAccount.name"
     value = "irsatest"
+  }
+
+  set {
+    name  = "serviceAccount.namespace"
+    value = "awsauthtest"
+  }
+}
+
+
+resource "helm_release" "serviceaccount_hybrid" {
+  name             = "hybridtest"
+  chart            = "${path.module}/../charts/eksserviceaccount"
+  namespace        = "awsauthtest"
+  version          = "0.1.0"
+  create_namespace = true
+
+  set {
+    name  = "aws.account.id"
+    value = data.aws_caller_identity.current.account_id
+  }
+
+  set {
+    name  = "aws.account.partition"
+    value = data.aws_partition.current.partition
+  }
+
+  set {
+    name  = "aws.role_name"
+    value = "IRSATest"
+  }
+
+  set {
+    name  = "serviceAccount.name"
+    value = "hybridtest"
   }
 
   set {
