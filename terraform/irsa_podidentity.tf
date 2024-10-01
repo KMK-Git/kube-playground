@@ -65,4 +65,9 @@ resource "helm_release" "serviceaccount" {
     name  = "serviceAccount.name"
     value = "irsatest"
   }
+
+  set {
+    name  = "serviceAccount.namespace"
+    value = "awsauthtest"
+  }
 }
