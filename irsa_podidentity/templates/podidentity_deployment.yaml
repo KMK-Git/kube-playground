@@ -20,5 +20,5 @@ spec:
       containers:
         - image: public.ecr.aws/aws-cli/aws-cli:2.17.61
           name: awscli
-          command: ["/bin/bash"]
-          args: ["sleep", "10000"]
+          command: [ "/bin/bash", "-c", "--" ]
+          args: [ "while true; do sleep 30; done;" ]
