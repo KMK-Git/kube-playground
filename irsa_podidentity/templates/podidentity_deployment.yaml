@@ -11,6 +11,11 @@ spec:
   template:
     spec:
       serviceAccountName: podidentitytest
+      metadata:
+        name: podidentitytest
+        namespace: awsauthtest
+        labels:
+            name: podidentitytest
       containers:
         - command:
             - "/bin/sh"
