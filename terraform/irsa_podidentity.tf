@@ -23,11 +23,11 @@ module "argocd_pod_identity" {
       namespace       = "awsauthtest"
       service_account = "podidentitytest"
     }
-    # hybridtest = {
-    #   cluster_name    = data.aws_eks_cluster.cluster.name
-    #   namespace       = "awsauthtest"
-    #   service_account = "hybridtest"
-    # }
+    hybridtest = {
+      cluster_name    = data.aws_eks_cluster.cluster.name
+      namespace       = "awsauthtest"
+      service_account = "hybridtest"
+    }
   }
 }
 
