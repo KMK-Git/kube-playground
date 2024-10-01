@@ -39,30 +39,30 @@ module "controller_role" {
   }
 }
 
-# resource "helm_release" "serviceaccount" {
-#   name             = "irsatest"
-#   chart            = "${path.module}/../charts/eksserviceaccount"
-#   namespace        = "awsauthtest"
-#   version          = "0.1.0"
-#   create_namespace = true
+resource "helm_release" "serviceaccount" {
+  name             = "irsatest"
+  chart            = "${path.module}/../charts/eksserviceaccount"
+  namespace        = "awsauthtest"
+  version          = "0.1.0"
+  create_namespace = true
 
-#   set {
-#     name  = "aws.account.id"
-#     value = data.aws_caller_identity.current.account_id
-#   }
+  set {
+    name  = "aws.account.id"
+    value = data.aws_caller_identity.current.account_id
+  }
 
-#   set {
-#     name  = "aws.account.partition"
-#     value = data.aws_partition.current.partition
-#   }
+  set {
+    name  = "aws.account.partition"
+    value = data.aws_partition.current.partition
+  }
 
-#   set {
-#     name  = "aws.role_name"
-#     value = "IRSATest"
-#   }
+  set {
+    name  = "aws.role_name"
+    value = "IRSATest"
+  }
 
-#   set {
-#     name  = "serviceAccount.name"
-#     value = "irsatest"
-#   }
-# }
+  set {
+    name  = "serviceAccount.name"
+    value = "irsatest"
+  }
+}
