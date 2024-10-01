@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: podidentitytest
+  namespace: awsauthtest
 spec:
   replicas: 1
   template:
